@@ -6,7 +6,7 @@ import java.util.concurrent.atomic.AtomicInteger;
 
 public class TransportationData {
     private static AtomicInteger nextId = new AtomicInteger();
-    private final int clientId;
+    private final int transportId;
     private Client clientName;
     private double fee;
     private boolean payment;
@@ -15,30 +15,30 @@ public class TransportationData {
     private TypeOfCargo typeOfCargo;
     private double weightOfCargo;
 
-    public TransportationData(TypeOfCargo typeOfCargo, Client clientName, double fee, boolean payment, String startPoint, String endPoint){
-        this.clientId = nextId.incrementAndGet();
+    public TransportationData(TypeOfCargo typeOfCargo, Client clientName, double fee, String startPoint, String endPoint){
+        this.transportId = nextId.incrementAndGet();
         this.clientName = clientName;
         this.fee = fee;
         this.startPoint = startPoint;
         this.endPoint = endPoint;
         this.typeOfCargo = typeOfCargo;
         this.weightOfCargo = 0;
-        this.payment = payment;
+        this.payment = false;
     }
 
-    public TransportationData(TypeOfCargo typeOfCargo, Client clientName, double fee, boolean payment, String startPoint, String endPoint, double weightOfCargo){
-        this.clientId = nextId.incrementAndGet();
+    public TransportationData(TypeOfCargo typeOfCargo, Client clientName, double fee, String startPoint, String endPoint, double weightOfCargo){
+        this.transportId = nextId.incrementAndGet();
         this.clientName = clientName;
         this.fee = fee;
         this.startPoint = startPoint;
         this.endPoint = endPoint;
         this.typeOfCargo = typeOfCargo;
         this.weightOfCargo = weightOfCargo;
-        this.payment = payment;
+        this.payment = false;
     }
 
-    public int getClientId() {
-        return clientId;
+    public int getTransportId() {
+        return transportId;
     }
 
     public void setFee(double fee) {

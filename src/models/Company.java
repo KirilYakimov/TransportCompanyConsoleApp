@@ -1,5 +1,7 @@
 package models;
 
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -12,7 +14,7 @@ public class Company {
     private static int numberOfVehicle = 0;
 
     private HashSet<Client> clientList;
-    private HashMap<Integer, Employee> employeeList; // finito
+    private HashMap<Integer, Employee> employeeList;
     private HashSet<Vehicle> vehicleList;
     private HashMap<Integer ,TransportationData> transportationDataList;
     private HashMap<TransportationData, Employee> employeeTransportation;
@@ -36,15 +38,15 @@ public class Company {
     // Add's the client
     public void addClient(Client client) {
         clientList.add(client);
-        ++numberOfClients;
+        numberOfClients++;
     }
 
     // Removes the client
     public void removeClient(Client client) {
         if (clientList.contains(client)) {
-            System.out.println("Client is removed from the list!\n");
+            System.out.println("Client is removed from the list!");
             clientList.remove(client);
-            --numberOfClients;
+            numberOfClients--;
         } else {
             System.out.println("This client " + client + " is not in the list!");
         }
@@ -57,15 +59,15 @@ public class Company {
     // Add's vehicle
     public void addVehicle(Vehicle vehicle) {
         vehicleList.add(vehicle);
-        ++numberOfVehicle;
+        numberOfVehicle++;
     }
 
     // Removes vehicle
     public void removeVehicle(Vehicle vehicle) {
         if (vehicleList.contains(vehicle)) {
-            System.out.println("Vehicle is removed from the list!\n");
+            System.out.println("Vehicle is removed from the list!");
             vehicleList.remove(vehicle);
-            --numberOfVehicle;
+            numberOfVehicle--;
         } else {
             System.out.println("This vehicle " + vehicle + " is not in the list!");
         }
@@ -78,15 +80,15 @@ public class Company {
     // Add's the employee
     public void addEmployee(Employee employee) {
         employeeList.put(employee.getEmployeeID(), employee);
-        ++numberOfContracts;
+        numberOfContracts++;
     }
 
     // Removes the employee
     public void removeEmployee(Employee employee) {
         if (employeeList.containsKey(employee.getEmployeeID())) {
-            System.out.println("Employee is removed from the list!\n");
             employeeList.remove(employee.getEmployeeID(), employee);
             --numberOfContracts;
+            System.out.println("Employee is removed from the list!");
         } else {
             System.out.println("This employee " + employee + " is not in the list!");
         }
@@ -108,12 +110,12 @@ public class Company {
 
     // Add's the transportation
     public void addTransportation(TransportationData transportationData){
-        transportationDataList.put(transportationData.getClientId() ,transportationData);
+        transportationDataList.put(transportationData.getTransportId() ,transportationData);
     }
 
     // Removes the transportation
     public void removeTransportation(TransportationData transportationData){
-        transportationDataList.remove(transportationData.getClientId() ,transportationData);
+        transportationDataList.remove(transportationData.getTransportId() ,transportationData);
     }
 
     // Starts the transportation
@@ -122,7 +124,7 @@ public class Company {
             employeeTransportation.put(transportationData, employee);
             employee.setTotalPayment(employee.getTotalPayment() + transportationData.getFee());
         }else {
-            System.out.println("That transportation fee needs to be payed before cargo is transported");
+            System.out.println("That transportation fee needs to be payed before cargo is transported.");
         }
     }
 
@@ -153,27 +155,45 @@ public class Company {
     }
 
     // SetPayment
-    public void setPaymentData(TransportationData transportationData){
-        if(transportationData.isItPayed()){
-            System.out.println("Client already payed: " + transportationData.getFee() + "for the transportation.");
-        } else {
-            transportationData.setPayment(true);
-            System.out.println("Client payed.");
+    public void setPaymentData(TransportationData transportationData, boolean paid){
+        if (transportationDataList.containsKey(transportationData.getTransportId())){
+            if (transportationData.isItPayed()){
+                System.out.println("Client already payed: " + transportationData.getFee() + " for the transportation.");
+            } else {
+                DateTimeFormatter date = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+                LocalDateTime now = LocalDateTime.now();
+                System.out.println("Cargo: " + transportationData.getTransportId() + ", Date: " + date.format(now) + ", fee: " + transportationData.getFee() + ", Paid: " + paid);
+                transportationData.setPayment(paid);
+        }
+        }else{
+            System.out.println("Cargo is not in the data!");
         }
     }
 
     // GetPayment
     public void getPaymentData(TransportationData transportationData){
         if(!transportationData.isItPayed()){
-            System.out.println("Client didn't payed yet");
+            System.out.println("Client didn't payed yet.");
         } else {
-            System.out.println("Client payed: " + transportationData.getFee() + "for the transportation");
+            System.out.println("Client payed: " + transportationData.getFee() + " for the transportation.");
         }
+    }
+
+    public void getNumOftransportations(){
+        System.out.println("Number of transportation's: " + employeeTransportation.size());
+    }
+
+    // Get total paid taxes
+    public void getTotalPaidFees(){
+        double[] sum = {0};
+        employeeTransportation.forEach(
+                (transportationData, employee) -> sum[0] += transportationData.getFee());
+        System.out.println("Total paid fees: " + sum[0]);
     }
 
     // How many transportation did a given employee did
     public void employeesTransportation() {
-        System.out.println("");
+        System.out.print("Employees transportation's: ");
         Map<Object,Long> employeesTransportations = employeeTransportation.values().stream()
                 .collect(Collectors.groupingBy(Employee::getNameOfEmployee, Collectors.counting()));
 

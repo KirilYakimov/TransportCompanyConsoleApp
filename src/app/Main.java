@@ -13,7 +13,7 @@ public class Main {
                 "transport@gmail.com",
                 "No physical address");
 
-        //System.out.println(transportCompany);
+        System.out.println(transportCompany);
 
         // Change company name
         transportCompany.setNameOfCompany("TransExpress");
@@ -22,7 +22,7 @@ public class Main {
         // Change company address
         transportCompany.setAddressOfCompany("Prince Alexander Dondukov Blvd.");
 
-        //System.out.println(transportCompany);
+        System.out.println(transportCompany);
         //---------------/Task.1----------------//
 
         //----------------Task.2----------------//
@@ -83,10 +83,10 @@ public class Main {
         transportCompany.addEmployee(maria);
         transportCompany.addEmployee(pesho);
 
-
         // Remove employee
         transportCompany.removeEmployee(maria);
 
+        System.out.println();
         transportCompany.displayEmployeeList();
 
         //---------------/Task.4----------------//
@@ -97,13 +97,12 @@ public class Main {
                 TypeOfCargo.CONTAINER_CARGO,
                 client2,
                 3000.5,
-                false,
                 "Sofia",
                 "Moscow",
                 10000);
-        TransportationData tData2 = new TransportationData(TypeOfCargo.CONTAINER_CARGO,  client2, 3000.5,false,"Sofia","Moscow", 18000);
-        TransportationData tData3 = new TransportationData(TypeOfCargo.PASSENGER_CARGO,  client1, 5000.90,false,"Sofia","Paris");
-        TransportationData tData4 = new TransportationData(TypeOfCargo.PASSENGER_CARGO,  client4, 1000.0,true,"Sofia","Varna");
+        TransportationData tData2 = new TransportationData(TypeOfCargo.CONTAINER_CARGO,  client2, 3000.5,"Sofia","Moscow", 18000);
+        TransportationData tData3 = new TransportationData(TypeOfCargo.PASSENGER_CARGO,  client1, 5000.90,"Sofia","Paris");
+        TransportationData tData4 = new TransportationData(TypeOfCargo.PASSENGER_CARGO,  client4, 1000.0, "Sofia","Varna");
 
 
 
@@ -116,23 +115,20 @@ public class Main {
         // Remove Transport data
         transportCompany.removeTransportation(tData2);
 
-
-
-
-
-
-
-
-
         //---------------/Task.5----------------//
 
         //----------------Task.6----------------//
-        transportCompany.setPaymentData(tData1);
+        System.out.println();
+        transportCompany.setPaymentData(tData1, true);
+        transportCompany.setPaymentData(tData2, true);
+        transportCompany.setPaymentData(tData4, true);
+        transportCompany.setPaymentData(tData3, true);
 
         transportCompany.employeeTransport(pesho, tData1);
         transportCompany.employeeTransport(filip, tData3);
         transportCompany.employeeTransport(filip, tData4);
 
+        System.out.println();
         transportCompany.getPaymentData(tData1);
         transportCompany.getPaymentData(tData3);
         transportCompany.getPaymentData(tData4);
@@ -141,13 +137,25 @@ public class Main {
 
         //----------------Task.7----------------//
 
+        //
+        System.out.println();
+        transportCompany.getNumberOfClients();
+        //
+        System.out.println();
+        transportCompany.getNumberOfContracts();
+        //
+        System.out.println();
+        transportCompany.getNumOftransportations();
+
+        System.out.println();
+        transportCompany.getTotalPaidFees();
+
+        System.out.println();
         transportCompany.employeesTransportation();
+
+        System.out.println();
         transportCompany.getEmployeeTotalPayment();
 
         //---------------/Task.7----------------//
-
-        //----------------Task.1----------------//
-        //delete company
-        //----------------Task.1----------------//
     }
 }
